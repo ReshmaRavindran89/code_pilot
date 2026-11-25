@@ -43,10 +43,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     "assessment",
     "questions",
+    'answer',
 ]
 
 
-#
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
