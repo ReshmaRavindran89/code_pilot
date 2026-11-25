@@ -17,6 +17,8 @@ from submission.permissions import IsOwner
 
 from assessment.Permissions import OwnerOnly
 
+from submission.permissions import IsAdmin
+
 
 from rest_framework.response import Response
 
@@ -45,7 +47,7 @@ class SubmissionListView(ListAPIView):
 
     authentication_classes=[authentication.TokenAuthentication]
 
-    permission_classes=[IsOwner]
+    permission_classes=[IsAdmin]
 
    
 
@@ -57,9 +59,7 @@ class SubmissionRetrieveView(RetrieveAPIView):
 
     authentication_classes=[authentication.TokenAuthentication]
 
-    permission_classes=[IsOwner]
-
-    
+    permission_classes=[IsAdmin]
 
 
 class SubmissionStatusView(RetrieveAPIView):
@@ -122,23 +122,21 @@ class SubmissionFinalAssessmentView(CreateAPIView):
 class SubmissionEvaluateView(RetrieveAPIView):
 
     serializer_class = SubmissionSerializer
-
     queryset = Submission.objects.all()
 
     authentication_classes = [authentication.TokenAuthentication]
-
-    permission_classes = [IsOwner]
+    permission_classes = [IsAdmin]
 
     def post(self, request, pk):
 
         try:
             submission = Submission.objects.get(id=pk)
 
-            submission.marks = request.data.get("marks")
+            submission.total_marks = request.data.get("total_marks")
 
             submission.feedback = request.data.get("feedback")
 
-            submission.status = "evaluated"
+            submission.evaluation_status = "evaluated"
 
             submission.save()
 
@@ -148,19 +146,21 @@ class SubmissionEvaluateView(RetrieveAPIView):
 
                 "submission_id": submission.pk,
 
-                "marks": submission.marks,
+                "total_marks": submission.total_marks,
 
                 "feedback": submission.feedback,
 
-                "status": submission.status
+                "status": submission.status,
+
+                "evaluation_status": submission.evaluation_status
+
             })
 
         except Submission.DoesNotExist:
 
             return Response({
-                
                 "message": "Submission not found"
-            })
+            }, status=404)
 
             
         

@@ -30,7 +30,7 @@ class Submission(models.Model):
 
     submitted_at = models.DateTimeField(null=True,blank=True)
 
-    total_marks = models.DecimalField(max_digits=7,decimal_places=2,default=0)
+    total_marks = models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True)
 
     evaluation_status = models.CharField(max_length=20,choices=EVALUATION_STATUS_CHOICES,default='pending')
 
