@@ -7,3 +7,8 @@ class OwnerOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         return request.user==obj.creator
 
+
+
+
+#obj.creator – Assessment create ചെയ്ത user.
+
