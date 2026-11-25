@@ -1,3 +1,4 @@
+
 from rest_framework.permissions import BasePermission
 
 from assessment.models import Assessment
@@ -8,4 +9,6 @@ class OwnerOnly(BasePermission):
 
 
 
+
 #obj.creator – Assessment create ചെയ്ത user.
+
